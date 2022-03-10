@@ -8,10 +8,10 @@ public class Game {
     private Table table;
     private Deck deck;
 
-    public Game() {
+    public Game(Integer numDecks) {
         players = new ArrayList<Player>();
         table = new Table();
-        deck = new Deck();
+        deck = new Deck(numDecks);
     }
 
     public List<Player> getPlayers() {
@@ -45,10 +45,10 @@ public class Game {
         // exit when even
     }
 
-    public void newRound() {
+    public void newRound(Integer numDecks) {
         System.out.println("New game!");
         table = new Table();
-        deck = new Deck();
+        deck = new Deck(numDecks);
     }
 
     @Override
@@ -62,11 +62,12 @@ public class Game {
         return joiner.toString();
     }
 
-    public static void main(String[] arg) {
+    public static void main(String[] args) {
         // work out how to utilise command line arguments
         // args should include number of players and number of decks
-        Game game = new Game();
-        String[] args = { "3" };
+        Integer numDecks = Integer.parseInt(args[1]);
+        Integer numHands = Integer.parseInt(args[2]);
+        Game game = new Game(numDecks);
 
         Scanner scanner = new Scanner(System.in);
         for (Integer i = 1; i <= Integer.parseInt(args[0]); i++) {
@@ -76,8 +77,8 @@ public class Game {
         }
         scanner.close();
 
-        for (int i = 0; i < 10; i++) {
-            game.newRound();
+        for (int i = 0; i < numHands; i++) {
+            game.newRound(numDecks);
             Table table = game.getTable();
             Deck deck = game.getDeck();
 

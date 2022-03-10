@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class Player {
     private String name;
@@ -42,6 +43,11 @@ public class Player {
 
     @Override
     public String toString() {
-        return String.format("%s\n  %s\n  %s\n  $%d", name, pocket.get(0), pocket.get(1), bank);
+        StringJoiner joiner = new StringJoiner("\n");
+        joiner.add(String.format("%s:", name));
+        joiner.add(String.format("  %s", pocket.get(0)));
+        joiner.add(String.format("  %s", pocket.get(1)));
+        joiner.add(String.format("  %s", bank));
+        return joiner.toString();
     }
 }

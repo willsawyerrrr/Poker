@@ -6,11 +6,13 @@ public class Player {
     private String name;
     private List<Card> pocket;
     private Integer bank;
+    private Integer handsWon;
 
     public Player(String name) {
         this.name = name;
         pocket = new ArrayList<Card>();
         bank = 100;
+        handsWon = 0;
     }
 
     public String getName() {
@@ -23,6 +25,10 @@ public class Player {
 
     public Integer getBank() {
         return bank;
+    }
+
+    public Integer getHandsWon() {
+        return handsWon;
     }
 
     public void addCard(Card card) {
@@ -39,6 +45,7 @@ public class Player {
 
     public void collectWinnings(Integer winnings) {
         bank += winnings;
+        handsWon++;
     }
 
     @Override

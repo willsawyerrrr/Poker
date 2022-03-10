@@ -12,7 +12,7 @@ public class Table {
         flop = new ArrayList<Card>(3);
         turn = null;
         river = null;
-        pot = null;
+        pot = 0;
     }
 
     public List<Card> getFlop() {
@@ -47,6 +47,10 @@ public class Table {
 
     public void addToPot(Integer bet) {
         pot += bet;
+    }
+
+    public void payWinner(Player winner) {
+        winner.collectWinnings(pot);
     }
 
     @Override

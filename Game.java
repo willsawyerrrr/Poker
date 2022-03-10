@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.StringJoiner;
 
 public class Game {
@@ -38,9 +39,16 @@ public class Game {
     }
 
     public void bettingRound() {
+        System.out.println("Taking bets");
         // ask for bets
         // set minimum to call based off previous bets
         // exit when even
+    }
+
+    public void newRound() {
+        System.out.println("New game!");
+        table = new Table();
+        deck = new Deck();
     }
 
     @Override
@@ -54,34 +62,44 @@ public class Game {
         return joiner.toString();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] arg) {
+        // work out how to utilise command line arguments
         // args should include number of players and number of decks
         Game game = new Game();
-        Table table = game.getTable();
-        Deck deck = game.getDeck();
+        String[] args = { "3" };
 
-        Player logan = new Player("Logan");
-        Player will = new Player("Will");
-        Player zayne = new Player("Zayne");
+        Scanner scanner = new Scanner(System.in);
+        for (Integer i = 1; i <= Integer.parseInt(args[0]); i++) {
+            System.out.print(String.format("Enter player %d's name: ", i));
+            String name = scanner.nextLine();
+            game.addPlayer(new Player(name));
+        }
+        scanner.close();
 
-        game.addPlayer(logan);
-        game.addPlayer(will);
-        game.addPlayer(zayne);
+        for (int i = 0; i < 10; i++) {
+            game.newRound();
+            Table table = game.getTable();
+            Deck deck = game.getDeck();
 
-        game.dealPocket();
-        System.out.println(game + "\n\n");
-        game.bettingRound();
+            game.dealPocket();
+            System.out.println(game + "\n\n");
+            game.bettingRound();
 
-        table.generateFlop(deck);
-        System.out.println(game + "\n\n");
-        game.bettingRound();
+            table.generateFlop(deck);
+            System.out.println(game + "\n\n");
+            game.bettingRound();
 
-        table.generateTurn(deck);
-        System.out.println(game + "\n\n");
-        game.bettingRound();
+            table.generateTurn(deck);
+            System.out.println(game + "\n\n");
+            game.bettingRound();
 
-        table.generateRiver(deck);
-        System.out.println(game + "\n\n");
-        game.bettingRound();
+            table.generateRiver(deck);
+            System.out.println(game + "\n\n");
+            game.bettingRound();
+
+            // Determine and pay winner
+            // Player winner = ???;
+            // table.payWinner(winner);
+        }
     }
 }

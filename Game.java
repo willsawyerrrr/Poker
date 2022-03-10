@@ -39,14 +39,12 @@ public class Game {
     }
 
     public void bettingRound() {
-        System.out.println("Taking bets");
         // ask for bets
         // set minimum to call based off previous bets
         // exit when even
     }
 
     public void newRound(Integer numDecks) {
-        System.out.println("New game!");
         table = new Table();
         deck = new Deck(numDecks);
     }
@@ -63,14 +61,32 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        // work out how to utilise command line arguments
-        // args should include number of players and number of decks
-        Integer numDecks = Integer.parseInt(args[1]);
-        Integer numHands = Integer.parseInt(args[2]);
+        // Command line arguments should be: numPlayers numDecks numHands
+        Integer numPlayers;
+        if (args.length > 0) {
+            numPlayers = Integer.parseInt(args[2]);
+        } else {
+            numPlayers = 3;
+        }
+
+        Integer numDecks;
+        if (args.length > 1) {
+            numDecks = Integer.parseInt(args[1]);
+        } else {
+            numDecks = 1;
+        }
+
+        Integer numHands;
+        if (args.length > 2) {
+            numHands = Integer.parseInt(args[2]);
+        } else {
+            numHands = 1;
+        }
+
         Game game = new Game(numDecks);
 
         Scanner scanner = new Scanner(System.in);
-        for (Integer i = 1; i <= Integer.parseInt(args[0]); i++) {
+        for (Integer i = 1; i <= numPlayers; i++) {
             System.out.print(String.format("Enter player %d's name: ", i));
             String name = scanner.nextLine();
             game.addPlayer(new Player(name));

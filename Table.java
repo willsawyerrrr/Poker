@@ -52,12 +52,18 @@ public class Table {
     @Override
     public String toString() {
         StringJoiner joiner = new StringJoiner("\n");
-        joiner.add("Flop:");
-        for (Card card : flop) {
-            joiner.add(String.format("  %s", card));
+        if (!flop.isEmpty()) {
+            joiner.add("Table:");
+            for (Card card : flop) {
+                joiner.add(String.format("  %s", card));
+            }
         }
-        joiner.add(String.format("  %s", turn));
-        joiner.add(String.format("  %s", river));
+        if (turn != null) {
+            joiner.add(String.format("  %s", turn));
+        }
+        if (river != null) {
+            joiner.add(String.format("  %s", river));
+        }
         joiner.add("Pot:");
         joiner.add(String.format("  %d", pot));
         return joiner.toString();

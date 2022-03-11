@@ -55,6 +55,18 @@ public class Game {
         // exit when even
     }
 
+    public Player determineWinner(Scanner scanner) {
+        System.out.print("Enter winner's name: ");
+        String winnerName = scanner.nextLine();
+        Player winner = null;
+        for (Player player : players) {
+            if (player.getName().equals(winnerName)) {
+                winner = player;
+            }
+        }
+        return winner;
+    }
+
     public void newRound(Integer numDecks) {
         table = new Table();
         deck = new Deck(numDecks);
@@ -73,9 +85,8 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        // Command line arguments should be: numPlayers numDecks numHands
-        // Defaults to 3 1 -1
-        // numHands = -1 --> unlimited hands
+        // Command line arguments should be: numPlayers numDecks
+        // Defaults to 3 1
         Integer numPlayers;
         if (args.length > 0) {
             numPlayers = Integer.parseInt(args[0]);
@@ -90,14 +101,8 @@ public class Game {
             numDecks = 1;
         }
 
-        Integer numHands;
-        if (args.length > 2) {
-            numHands = Integer.parseInt(args[2]);
-        } else {
-            numHands = -1;
-        }
-
         Game game = new Game(numDecks);
+        String newHand = "Y";
 
         Scanner scanner = new Scanner(System.in);
         for (Integer i = 1; i <= numPlayers; i++) {
@@ -106,7 +111,7 @@ public class Game {
             game.addPlayer(new Player(name));
         }
 
-        for (int i = 0; i != numHands; i++) {
+        while (newHand.equals("Y") || newHand.equals("y")) {
             game.newRound(numDecks);
             Table table = game.getTable();
             Deck deck = game.getDeck();
@@ -128,8 +133,11 @@ public class Game {
             game.bettingRound(scanner);
 
             // Determine and pay winner
-            Player winner = game.getPlayers().get(0);
+            Player winner = game.determineWinner(scanner);
             table.payWinner(winner);
+
+            System.out.print("Want to play another hand? [Y/N] ");
+            newHand = scanner.nextLine();
         }
         scanner.close();
     }

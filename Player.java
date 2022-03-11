@@ -6,12 +6,14 @@ public class Player {
     private String name;
     private List<Card> pocket;
     private Integer bank;
+    private Boolean inHand;
     private Integer handsWon;
 
     public Player(String name) {
         this.name = name;
         pocket = new ArrayList<Card>();
         bank = 100;
+        inHand = true;
         handsWon = 0;
     }
 
@@ -27,12 +29,17 @@ public class Player {
         return bank;
     }
 
+    public Boolean getInHand() {
+        return inHand;
+    }
+
     public Integer getHandsWon() {
         return handsWon;
     }
 
-    public void addCard(Card card) {
+    public void dealIn(Card card) {
         pocket.add(card);
+        inHand = true;
     }
 
     public Boolean bet(Integer bet) {
@@ -41,6 +48,10 @@ public class Player {
             return true;
         }
         return false;
+    }
+
+    public void fold() {
+        inHand = false;
     }
 
     public void collectWinnings(Integer winnings) {

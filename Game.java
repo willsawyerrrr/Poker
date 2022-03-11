@@ -30,7 +30,7 @@ public class Game {
         this.players.add(player);
     }
 
-    public void dealIn() {
+    public void deal() {
         for (int i = 0; i < 2; i++) {
             for (Player player : players) {
                 player.dealIn(deck.generateCard());
@@ -63,6 +63,7 @@ public class Game {
     @Override
     public String toString() {
         StringJoiner joiner = new StringJoiner("\n");
+        joiner.add("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         for (Player player : players) {
             joiner.add(player.toString());
         }
@@ -73,7 +74,8 @@ public class Game {
 
     public static void main(String[] args) {
         // Command line arguments should be: numPlayers numDecks numHands
-        // Defaults to 3 1 1
+        // Defaults to 3 1 -1
+        // numHands = -1 --> unlimited hands
         Integer numPlayers;
         if (args.length > 0) {
             numPlayers = Integer.parseInt(args[0]);
@@ -92,7 +94,7 @@ public class Game {
         if (args.length > 2) {
             numHands = Integer.parseInt(args[2]);
         } else {
-            numHands = 1;
+            numHands = -1;
         }
 
         Game game = new Game(numDecks);
@@ -104,12 +106,12 @@ public class Game {
             game.addPlayer(new Player(name));
         }
 
-        for (int i = 0; i < numHands; i++) {
+        for (int i = 0; i != numHands; i++) {
             game.newRound(numDecks);
             Table table = game.getTable();
             Deck deck = game.getDeck();
 
-            game.dealIn();
+            game.deal();
             System.out.println(game + "\n\n");
             game.bettingRound(scanner);
 

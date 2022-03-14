@@ -43,9 +43,12 @@ public class Player {
         return currentBet;
     }
 
+    public Boolean getAllIn() {
+        return bank == 0;
+    }
+
     public void dealIn(Card card) {
         pocket.add(card);
-        inHand = true;
     }
 
     public Boolean bet(Integer bet) {
@@ -57,6 +60,12 @@ public class Player {
         return false;
     }
 
+    public Integer allIn() {
+        Integer result = bank;
+        bank = 0;
+        return result;
+    }
+
     public void fold() {
         inHand = false;
     }
@@ -64,6 +73,12 @@ public class Player {
     public void collectWinnings(Integer winnings) {
         bank += winnings;
         handsWon++;
+    }
+
+    public void reset() {
+        pocket.clear();
+        inHand = true;
+        currentBet = 0;
     }
 
     @Override

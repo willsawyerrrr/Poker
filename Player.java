@@ -8,6 +8,7 @@ public class Player {
     private Integer bank;
     private Boolean inHand;
     private Integer handsWon;
+    private Integer currentBet;
 
     public Player(String name) {
         this.name = name;
@@ -15,6 +16,7 @@ public class Player {
         bank = 100;
         inHand = true;
         handsWon = 0;
+        currentBet = 0;
     }
 
     public String getName() {
@@ -37,6 +39,10 @@ public class Player {
         return handsWon;
     }
 
+    public Integer getCurrentBet() {
+        return currentBet;
+    }
+
     public void dealIn(Card card) {
         pocket.add(card);
         inHand = true;
@@ -45,6 +51,7 @@ public class Player {
     public Boolean bet(Integer bet) {
         if (bet <= bank) {
             bank -= bet;
+            currentBet += bet;
             return true;
         }
         return false;

@@ -40,14 +40,35 @@ public class Game {
 
     public void bettingRound(Scanner scanner) {
         // Ask for bets
+        Boolean canCheck = true;
+        Integer currentBet = 0;
+        String checkPrompt = "check, fold or bet? [C/F/B]";
+        String otherPrompt = "call, fold or bet [F/C/B]";
         for (Player player : players) {
             if (player.getInHand()) {
                 String name = player.getName();
-                System.out.print(String.format("%s, enter your bet: ", name));
-                String amount = scanner.nextLine();
-                Integer bet = Integer.parseInt(amount);
-                if (player.bet(bet)) {
-                    table.addToPot(bet);
+                String prompt = canCheck ? checkPrompt : otherPrompt;
+                System.out.println(String.format("%s, %s", name, prompt));
+                String action = scanner.nextLine().toUpperCase();
+                switch (action) {
+                    case "F":
+                        player.fold();
+                        break;
+                    case "C":
+                        if (!canCheck) {
+                            player.bet(currentBet - player.getCurrentBet());
+                        }
+                        break;
+                    case "B":
+                        System.out.print(String.format("%s, enter your bet: ", name));
+                        String amount = scanner.nextLine();
+                        Integer bet = Integer.parseInt(amount);
+                        if (player.bet(bet)) {
+                            table.addToPot(bet);
+                            currentBet = player.getCurrentBet();
+                        }
+                        canCheck = false;
+                        break;
                 }
             }
         }
@@ -77,7 +98,9 @@ public class Game {
         StringJoiner joiner = new StringJoiner("\n");
         joiner.add("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         for (Player player : players) {
-            joiner.add(player.toString());
+            if (player.getInHand()) {
+                joiner.add(player.toString());
+            }
         }
         joiner.add("");
         joiner.add(table.toString());

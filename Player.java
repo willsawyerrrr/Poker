@@ -63,6 +63,7 @@ public class Player {
     public Integer allIn() {
         Integer result = bank;
         bank = 0;
+        currentBet += result;
         return result;
     }
 
@@ -75,7 +76,11 @@ public class Player {
         handsWon++;
     }
 
-    public void reset() {
+    public void resetBet() {
+        currentBet = 0;
+    }
+
+    public void resetAll() {
         pocket.clear();
         inHand = true;
         currentBet = 0;

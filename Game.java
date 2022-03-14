@@ -38,50 +38,95 @@ public class Game {
         }
     }
 
-    public void bettingRound(Scanner scanner) {
-        // Ask for bets
+    public Boolean bettingRound(Scanner scanner) {
         Boolean canCheck = true;
+        Boolean betsEven = false;
         Integer currentBet = 0;
-        String checkPrompt = "check, fold, bet or all-in? [C/F/B/A]";
-        String otherPrompt = "call, fold, bet or all-in? [C/F/B/A]";
+        Integer remaining = players.size();
+        Boolean allFolded = false;
+        String checkPrompt = "Check, fold, bet or all-in? [C/F/B/A]";
+        String otherPrompt = "Call, fold, raise or all-in? [C/F/R/A]";
+
+        // return everyone's current bet to 0
         for (Player player : players) {
-            if (player.getInHand()) {
-                String name = player.getName();
-                String prompt = canCheck ? checkPrompt : otherPrompt;
-                System.out.println(String.format("%s, %s", name, prompt));
-                String action = scanner.nextLine().toUpperCase();
-                switch (action) {
-                    case "F":
-                        player.fold();
-                        break;
-                    case "C":
-                        if (!canCheck) {
-                            Integer bet = currentBet - player.getCurrentBet();
-                            if (player.bet(bet)) {
+            player.resetBet();
+        }
+        // ask everyone for their action
+        // if someone bets or goes all-in, no one after them can check
+        // once everyone has checked or bets are even, end betting round
+
+        while (!betsEven && remaining != 1) {
+            for (Player player : players) {
+                if (player.getInHand()) {
+                    if (player.getCurrentBet() != currentBet || canCheck) {
+                        String name = player.getName();
+                        String prompt = canCheck ? checkPrompt : otherPrompt;
+                        System.out.println(String.format("%s: %s", name, prompt));
+                        String action = scanner.nextLine().toUpperCase();
+                        switch (action) {
+                            case "C":
+                                if (!canCheck) {
+                                    Integer bet = currentBet - player.getCurrentBet();
+                                    if (player.bet(bet)) {
+                                        table.addToPot(bet);
+                                    }
+                                }
+                                break;
+                            case "F":
+                                player.fold();
+                                break;
+                            case "B":
+                                System.out.print(String.format("%s: Enter your bet: ", name));
+                                String amount = scanner.nextLine();
+                                Integer bet = Integer.parseInt(amount);
+                                if (player.bet(bet)) {
+                                    table.addToPot(bet);
+                                    currentBet = player.getCurrentBet();
+                                }
+                                canCheck = false;
+                                break;
+                            case "R":
+                                System.out.print(String.format("%s: Enter your raise: ", name));
+                                amount = scanner.nextLine();
+                                Integer raise = Integer.parseInt(amount);
+                                bet = currentBet - player.getCurrentBet() + raise;
+                                if (player.bet(bet)) {
+                                    table.addToPot(bet);
+                                    currentBet = player.getCurrentBet();
+                                }
+                                canCheck = false;
+                                break;
+                            case "A":
+                                bet = player.allIn();
                                 table.addToPot(bet);
-                            }
+                                currentBet = player.getCurrentBet();
+                                canCheck = false;
+                                break;
                         }
-                        break;
-                    case "B":
-                        System.out.print(String.format("%s, enter your bet: ", name));
-                        String amount = scanner.nextLine();
-                        Integer bet = Integer.parseInt(amount);
-                        if (player.bet(bet)) {
-                            table.addToPot(bet);
-                            currentBet = player.getCurrentBet();
+                    } else {
+                        betsEven = true;
+                    }
+                }
+                remaining = 0;
+                betsEven = true;
+                for (Player x : players) {
+                    if (x.getInHand()) {
+                        remaining++;
+                        if (x.getCurrentBet() != currentBet) {
+                            betsEven = false;
                         }
-                        canCheck = false;
-                        break;
-                    case "A":
-                        bet = player.allIn();
-                        table.addToPot(bet);
-                        currentBet = (bet > currentBet) ? bet : currentBet;
-                        canCheck = false;
+                    }
+                }
+                if (remaining == 1) {
+                    allFolded = true;
+                    break;
+                } else if (betsEven && !canCheck) {
+                    break;
                 }
             }
         }
-        // set minimum to call based off previous bets
-        // exit when even
+
+        return allFolded;
     }
 
     public Player determineWinner(Scanner scanner) {
@@ -100,8 +145,11 @@ public class Game {
         table = new Table();
         deck = new Deck(numDecks);
         for (Player player : players) {
-            player.reset();
+            player.resetAll();
         }
+        Player player = players.get(0);
+        players.remove(player);
+        players.add(player);
     }
 
     @Override
@@ -145,6 +193,7 @@ public class Game {
             game.addPlayer(new Player(name));
         }
 
+        Boolean allFolded = false;
         while (newHand.equals("Y") || newHand.equals("y")) {
             game.newRound(numDecks);
             Table table = game.getTable();
@@ -152,23 +201,40 @@ public class Game {
 
             game.deal();
             System.out.println(game + "\n\n");
-            game.bettingRound(scanner);
+            allFolded = game.bettingRound(scanner);
 
-            table.generateFlop(deck);
-            System.out.println(game + "\n\n");
-            game.bettingRound(scanner);
+            if (!allFolded) {
+                table.generateFlop(deck);
+                System.out.println(game + "\n\n");
+                allFolded = game.bettingRound(scanner);
+            }
 
-            table.generateTurn(deck);
-            System.out.println(game + "\n\n");
-            game.bettingRound(scanner);
+            if (!allFolded) {
+                table.generateTurn(deck);
+                System.out.println(game + "\n\n");
+                allFolded = game.bettingRound(scanner);
+            }
 
-            table.generateRiver(deck);
-            System.out.println(game + "\n\n");
-            game.bettingRound(scanner);
+            if (!allFolded) {
+                table.generateRiver(deck);
+                System.out.println(game + "\n\n");
+                allFolded = game.bettingRound(scanner);
+            }
 
             // Determine and pay winner
-            Player winner = game.determineWinner(scanner);
+            Player winner = null;
+            if (allFolded) {
+                for (Player player : game.getPlayers()) {
+                    if (player.getInHand()) {
+                        winner = player;
+                        break;
+                    }
+                }
+            } else {
+                winner = game.determineWinner(scanner);
+            }
             table.payWinner(winner);
+            System.out.println(String.format("%s wins!", winner.getName()));
 
             System.out.print("Want to play another hand? [Y/N] ");
             newHand = scanner.nextLine();

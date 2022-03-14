@@ -42,8 +42,8 @@ public class Game {
         // Ask for bets
         Boolean canCheck = true;
         Integer currentBet = 0;
-        String checkPrompt = "check, fold or bet? [C/F/B]";
-        String otherPrompt = "call, fold or bet [F/C/B]";
+        String checkPrompt = "check, fold, bet or all-in? [C/F/B/A]";
+        String otherPrompt = "call, fold, bet or all-in? [C/F/B/A]";
         for (Player player : players) {
             if (player.getInHand()) {
                 String name = player.getName();
@@ -56,7 +56,10 @@ public class Game {
                         break;
                     case "C":
                         if (!canCheck) {
-                            player.bet(currentBet - player.getCurrentBet());
+                            Integer bet = currentBet - player.getCurrentBet();
+                            if (player.bet(bet)) {
+                                table.addToPot(bet);
+                            }
                         }
                         break;
                     case "B":
@@ -69,6 +72,11 @@ public class Game {
                         }
                         canCheck = false;
                         break;
+                    case "A":
+                        bet = player.allIn();
+                        table.addToPot(bet);
+                        currentBet = (bet > currentBet) ? bet : currentBet;
+                        canCheck = false;
                 }
             }
         }
@@ -91,6 +99,9 @@ public class Game {
     public void newRound(Integer numDecks) {
         table = new Table();
         deck = new Deck(numDecks);
+        for (Player player : players) {
+            player.reset();
+        }
     }
 
     @Override

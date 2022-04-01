@@ -4,32 +4,63 @@ import java.util.Scanner;
 import java.util.StringJoiner;
 
 public class Game {
+    /** The players in the current game. */
     private List<Player> players;
+    /** The table corresponding to the current game. */
     private Table table;
+    /** The deck being used in the current game. */
     private Deck deck;
 
+    /**
+     * Creates a new game which uses the given number of decks.
+     * 
+     * @param numDecks the number of decks to use during the game
+     */
     public Game(Integer numDecks) {
         players = new ArrayList<Player>();
         table = new Table();
         deck = new Deck(numDecks);
     }
 
+    /**
+     * Returns the players in the current game.
+     * 
+     * @return the players in the current game
+     */
     public List<Player> getPlayers() {
         return players;
     }
 
+    /**
+     * Returns the table corresponding to the current game.
+     * 
+     * @return the table corresponding to the current game
+     */
     public Table getTable() {
         return table;
     }
 
+    /**
+     * Returns the table being used in the current game.
+     * 
+     * @return the table being used in the current game
+     */
     public Deck getDeck() {
         return deck;
     }
 
+    /**
+     * Adds the given player to the game.
+     * 
+     * @param player player to add to the game
+     */
     public void addPlayer(Player player) {
         this.players.add(player);
     }
 
+    /**
+     * Deals two pocket cards to all players in the current hand.
+     */
     public void deal() {
         for (int i = 0; i < 2; i++) {
             for (Player player : players) {
@@ -38,6 +69,13 @@ public class Game {
         }
     }
 
+    /**
+     * Controls betting round. Returns whether all players have folded.
+     * 
+     * @param scanner scanner used to get terminal input
+     * 
+     * @return
+     */
     public Boolean bettingRound(Scanner scanner) {
         Boolean canCheck = true;
         Boolean betsEven = false;
@@ -129,6 +167,13 @@ public class Game {
         return allFolded;
     }
 
+    /**
+     * Asks for the player who won the hand.
+     * 
+     * @param scanner scanner used to get terminal input
+     * 
+     * @return the player who won the hand
+     */
     public Player determineWinner(Scanner scanner) {
         System.out.print("Enter winner's name: ");
         String winnerName = scanner.nextLine();
@@ -141,6 +186,13 @@ public class Game {
         return winner;
     }
 
+    /**
+     * Initialises a new table and deck of cards for a new game.
+     * Resets all players to begin a new game and rotates players
+     * to share deal.
+     * 
+     * @param numDecks number of standard decks to use in the new game
+     */
     public void newRound(Integer numDecks) {
         table = new Table();
         deck = new Deck(numDecks);
@@ -152,10 +204,33 @@ public class Game {
         players.add(player);
     }
 
+    /**
+     * Returns a human-readable string representing the game.
+     * This string is formatted as:
+     * <code>
+     *   <em>Player1Name</em>:
+     *     <em>Player1Card1</em>
+     *     <em>Player1Card2</em>
+     *   <em>Player2Name</em>:
+     *     <em>Player2Card1</em>
+     *     <em>Player2Card2</em>
+     *   ...
+     *   <em>PlayerNName</em>:
+     *     <em>PlayerNCard1</em>
+     *     <em>PlayerNCard2</em>
+     * 
+     *   Table:
+     *     <em>FlopCard1</em>
+     *     <em>FlopCard2</em>
+     *     <em>FlopCard3</em>
+     *   Pot:
+     *     <em>Pot</em>
+     * </code>
+     * where <em>N</em> is the number of players in the game.
+     */
     @Override
     public String toString() {
         StringJoiner joiner = new StringJoiner("\n");
-        joiner.add("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         for (Player player : players) {
             if (player.getInHand()) {
                 joiner.add(player.toString());

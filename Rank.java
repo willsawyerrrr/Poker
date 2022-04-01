@@ -2,7 +2,7 @@ public enum Rank {
     /** Nothing. */
     HighCard,
     /** Two cards of the same value. */
-    Pair,
+    OnePair,
     /** Two cards of the same value, two of another. */
     TwoPair,
     /** Three cards of the same value. */
@@ -18,5 +18,7 @@ public enum Rank {
     /** Five cards of consecutive value, all of the same suit */
     StraightFlush,
     /** Ace, King, Queen, Jack and Ten of the same suit. */
-    RoyalFlush
+    RoyalFlush,
+    /** Five cards of the same value. */
+    FiveOfAKind
 }

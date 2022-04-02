@@ -1,4 +1,4 @@
-package src.poker.player;
+package src.poker.card;
 
 public enum Rank {
     /** Nothing. */

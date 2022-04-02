@@ -7,6 +7,10 @@ public class Player {
     private String name;
     /** The cards in the player's pocket. */
     private List<Card> pocket;
+    /** The player's best five-card hand. */
+    private List<Card> hand;
+    /** The rank of the player's best five-card hand. */
+    public Rank rank;
     /** The player's money. */
     private Integer bank;
     /** Whether the player is in the current hand. */
@@ -46,6 +50,35 @@ public class Player {
      */
     public List<Card> getPocket() {
         return pocket;
+    }
+
+    /**
+     * Returns the player's best five-card hand.
+     * 
+     * @return the player's best five-card hand
+     */
+    public List<Card> getHand() {
+        return hand;
+    }
+
+    /**
+     * Evaluates the player's best five-card hand.
+     * 
+     * @param table the table of the current game
+     */
+    public void evaluateHand(Table table) {
+        Hand sevenCardHand = new Hand(this, table);
+        hand = sevenCardHand.getBestHand();
+        rank = sevenCardHand.getRank();
+    }
+
+    /**
+     * Returns the rank of the player's best five-card hand.
+     * 
+     * @return the rank of the player's best five-card hand
+     */
+    public Rank getRank() {
+        return rank;
     }
 
     /**
@@ -165,6 +198,7 @@ public class Player {
         pocket.clear();
         inHand = true;
         currentBet = 0;
+        hand = null;
     }
 
     /**

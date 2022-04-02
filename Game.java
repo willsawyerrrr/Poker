@@ -298,15 +298,23 @@ public class Game {
 
             // Determine and pay winner
             Player winner = null;
-            if (allFolded) {
+            Rank winningRank = Rank.HighCard;
+            if (!allFolded) {
                 for (Player player : game.getPlayers()) {
                     if (player.getInHand()) {
-                        winner = player;
-                        break;
+                        player.evaluateHand(table);
+                        if (player.getRank().ordinal() > winningRank.ordinal()) {
+                            winner = player;
+                            winningRank = player.getRank();
+                        }
                     }
                 }
             } else {
-                winner = game.determineWinner(scanner);
+                for (Player player : game.getPlayers()) {
+                    if (player.getInHand()) {
+                        winner = player;
+                    }
+                }
             }
             table.payWinner(winner);
             System.out.println(String.format("%s wins!", winner.getName()));

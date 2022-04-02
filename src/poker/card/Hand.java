@@ -1,7 +1,6 @@
 package src.poker.card;
 
 import src.poker.game.Table;
-import src.poker.player.Rank;
 
 import java.util.ArrayList;
 import java.util.Collection;

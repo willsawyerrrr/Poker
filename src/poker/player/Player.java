@@ -2,6 +2,7 @@ package src.poker.player;
 
 import src.poker.card.Card;
 import src.poker.card.Hand;
+import src.poker.card.Rank;
 import src.poker.game.Table;
 
 import java.util.ArrayList;

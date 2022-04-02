@@ -1,3 +1,5 @@
+package src.poker.card;
+
 public enum Value {
     /** Encoded as 0000000000001. */
     Two,

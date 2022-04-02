@@ -1,3 +1,9 @@
+package src.poker.player;
+
+import src.poker.card.Card;
+import src.poker.card.Hand;
+import src.poker.game.Table;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -67,7 +73,7 @@ public class Player {
      * @param table the table of the current game
      */
     public void evaluateHand(Table table) {
-        Hand sevenCardHand = new Hand(this, table);
+        Hand sevenCardHand = new Hand(this.getPocket(), table);
         hand = sevenCardHand.getBestHand();
         rank = sevenCardHand.getRank();
     }

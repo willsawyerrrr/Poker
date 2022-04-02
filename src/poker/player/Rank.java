@@ -1,3 +1,5 @@
+package src.poker.player;
+
 public enum Rank {
     /** Nothing. */
     HighCard,

@@ -1,3 +1,5 @@
+package src.poker.card;
+
 public class Card {
     /** The card's suit. */
     private Suit suit;

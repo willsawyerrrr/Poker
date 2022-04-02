@@ -1,3 +1,9 @@
+package src.poker.game;
+
+import src.poker.card.Card;
+import src.poker.card.Deck;
+import src.poker.player.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;

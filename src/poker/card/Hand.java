@@ -1,3 +1,8 @@
+package src.poker.card;
+
+import src.poker.game.Table;
+import src.poker.player.Rank;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,8 +30,8 @@ public class Hand {
      * @param player player whose hand to evaluate
      * @param table  table of current game
      */
-    public Hand(Player player, Table table) {
-        hand.addAll(player.getPocket());
+    public Hand(List<Card> pocket, Table table) {
+        hand.addAll(pocket);
         hand.addAll(table.getFlop());
         hand.add(table.getTurn());
         hand.add(table.getRiver());

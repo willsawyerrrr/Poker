@@ -1,3 +1,5 @@
+package src.poker.card;
+
 public enum Suit {
     /** Encoded as 0001. */
     Spades,

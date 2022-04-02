@@ -1,7 +1,5 @@
 package src.poker.card;
 
-import src.poker.game.Table;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,16 +22,14 @@ public class Hand {
             (byte) 1000, (byte) 0100, (byte) 0010, (byte) 0001);
 
     /**
-     * Creates a new seven-card hand for the given player.
+     * Creates a new seven-card hand from a player's pocket and the table.
      * 
-     * @param pocket pocket of the player whose hand to evaluate
-     * @param table  table of current game
+     * @param pocket pocket cards from a player
+     * @param table  community cards from table
      */
-    public Hand(List<Card> pocket, Table table) {
+    public Hand(List<Card> pocket, List<Card> table) {
         hand.addAll(pocket);
-        hand.addAll(table.getFlop());
-        hand.add(table.getTurn());
-        hand.add(table.getRiver());
+        hand.addAll(table);
         evaluateHand();
     }
 

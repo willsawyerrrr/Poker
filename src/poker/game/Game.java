@@ -1,5 +1,6 @@
 package src.poker.game;
 
+import src.poker.card.Card;
 import src.poker.card.Deck;
 import src.poker.card.Rank;
 import src.poker.player.Player;
@@ -174,19 +175,36 @@ public class Game {
     }
 
     /**
-     * Asks for the player who won the hand.
+     * Evaluates the hand of each player.
      * 
-     * @param scanner scanner used to get terminal input
+     * @param table the table of the current game
+     */
+    public void evaluatePlayerHand(Table table) {
+        List<Card> tableCards = table.getFlop();
+        tableCards.add(table.getTurn());
+        tableCards.add(table.getRiver());
+
+        for (Player player : players) {
+            if (player.getInHand()) {
+                player.evaluateHand(tableCards);
+            }
+        }
+    }
+
+    /**
+     * Asks for the player who won the hand.
      * 
      * @return the player who won the hand
      */
-    public Player determineWinner(Scanner scanner) {
-        System.out.print("Enter winner's name: ");
-        String winnerName = scanner.nextLine();
+    public Player determineWinner() {
         Player winner = null;
+        Rank winningRank = Rank.HighCard;
         for (Player player : players) {
-            if (player.getName().equals(winnerName)) {
-                winner = player;
+            if (player.getInHand()) {
+                if (player.getRank().ordinal() > winningRank.ordinal()) {
+                    winner = player;
+                    winningRank = player.getRank();
+                }
             }
         }
         return winner;
@@ -304,17 +322,9 @@ public class Game {
 
             // Determine and pay winner
             Player winner = null;
-            Rank winningRank = Rank.HighCard;
             if (!allFolded) {
-                for (Player player : game.getPlayers()) {
-                    if (player.getInHand()) {
-                        player.evaluateHand(table);
-                        if (player.getRank().ordinal() > winningRank.ordinal()) {
-                            winner = player;
-                            winningRank = player.getRank();
-                        }
-                    }
-                }
+                game.evaluatePlayerHand(table);
+                winner = game.determineWinner();
             } else {
                 for (Player player : game.getPlayers()) {
                     if (player.getInHand()) {

@@ -3,7 +3,6 @@ package src.poker.player;
 import src.poker.card.Card;
 import src.poker.card.Hand;
 import src.poker.card.Rank;
-import src.poker.game.Table;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,10 +70,10 @@ public class Player {
     /**
      * Evaluates the player's best five-card hand.
      * 
-     * @param table the table of the current game
+     * @param tableCards community cards from the table
      */
-    public void evaluateHand(Table table) {
-        Hand sevenCardHand = new Hand(this.getPocket(), table);
+    public void evaluateHand(List<Card> tableCards) {
+        Hand sevenCardHand = new Hand(this.getPocket(), tableCards);
         hand = sevenCardHand.getBestHand();
         rank = sevenCardHand.getRank();
     }

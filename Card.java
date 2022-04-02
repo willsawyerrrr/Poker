@@ -1,8 +1,12 @@
 public class Card {
     /** The card's suit. */
     private Suit suit;
+    /** Encoding of the card's suit. */
+    private byte suitEncoding;
     /** The card's value. */
     private Value value;
+    /** Encoding of the card's value. */
+    private short valueEncoding;
 
     /**
      * Creates a new card with the given suit and value.
@@ -12,7 +16,9 @@ public class Card {
      */
     public Card(Suit suit, Value value) {
         this.suit = suit;
+        this.suitEncoding = (byte) (1 << suit.ordinal());
         this.value = value;
+        this.valueEncoding = (short) (1 << value.ordinal());
     }
 
     /**
@@ -25,12 +31,30 @@ public class Card {
     }
 
     /**
+     * Returns the encoding of the card's suit.
+     * 
+     * @return the encoding of the card's suit
+     */
+    public byte getSuitEncoding() {
+        return suitEncoding;
+    }
+
+    /**
      * Returns the card's value.
      * 
      * @return the card's value
      */
     public Value getValue() {
         return value;
+    }
+
+    /**
+     * Returns the encoding of the card's value.
+     * 
+     * @return the encoding of the card's value
+     */
+    public short getValueEncoding() {
+        return valueEncoding;
     }
 
     /**

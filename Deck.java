@@ -61,7 +61,7 @@ public class Deck {
      * where <em>CardM</em> is the string representation of <em>CardM</em> and
      * <em>N</em> is the number of cards currently in the deck.
      * 
-     * @see Card.toString
+     * @see Card#toString
      * 
      * @return the human-readable string representation of the deck
      */

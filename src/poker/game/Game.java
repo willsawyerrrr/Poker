@@ -66,7 +66,7 @@ public class Game {
     }
 
     /**
-     * Deals two pocket cards to all players in the current hand.
+     * Deals two pocket cards to all players.
      */
     public void deal() {
         for (int i = 0; i < 2; i++) {
@@ -176,10 +176,8 @@ public class Game {
 
     /**
      * Evaluates the hand of each player.
-     * 
-     * @param table the table of the current game
      */
-    public void evaluatePlayerHand(Table table) {
+    public void evaluatePlayerHand() {
         List<Card> tableCards = table.getFlop();
         tableCards.add(table.getTurn());
         tableCards.add(table.getRiver());
@@ -192,12 +190,12 @@ public class Game {
     }
 
     /**
-     * Asks for the player who won the hand.
+     * Determines the player who won the hand.
      * 
      * @return the player who won the hand
      */
     public Player determineWinner() {
-        Player winner = null;
+        Player winner = players.get(0);
         Rank winningRank = Rank.HighCard;
         for (Player player : players) {
             if (player.getInHand()) {
@@ -283,7 +281,6 @@ public class Game {
         }
 
         Game game = new Game(numDecks);
-        String newHand = "Y";
 
         Scanner scanner = new Scanner(System.in);
         for (Integer i = 1; i <= numPlayers; i++) {
@@ -292,8 +289,9 @@ public class Game {
             game.addPlayer(new Player(name));
         }
 
+        String newHand;
         Boolean allFolded = false;
-        while (newHand.equals("Y") || newHand.equals("y")) {
+        do {
             game.newRound(numDecks);
             Table table = game.getTable();
             Deck deck = game.getDeck();
@@ -323,7 +321,7 @@ public class Game {
             // Determine and pay winner
             Player winner = null;
             if (!allFolded) {
-                game.evaluatePlayerHand(table);
+                game.evaluatePlayerHand();
                 winner = game.determineWinner();
             } else {
                 for (Player player : game.getPlayers()) {
@@ -333,11 +331,12 @@ public class Game {
                 }
             }
             table.payWinner(winner);
-            System.out.println(String.format("%s wins!", winner.getName()));
+            System.out.println(String.format("%s wins with a %s!",
+                    winner.getName(), winner.getRank()));
 
             System.out.print("Want to play another hand? [Y/N] ");
             newHand = scanner.nextLine();
-        }
+        } while (newHand.equals("Y") || newHand.equals("y"));
         scanner.close();
     }
 }

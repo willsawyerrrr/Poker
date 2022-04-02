@@ -13,8 +13,10 @@ public class Player {
     private String name;
     /** The cards in the player's pocket. */
     private List<Card> pocket;
+    /** The player's seven-card hand. */
+    private Hand hand;
     /** The player's best five-card hand. */
-    private List<Card> hand;
+    private List<Card> bestHand;
     /** The rank of the player's best five-card hand. */
     public Rank rank;
     /** The player's money. */
@@ -34,6 +36,7 @@ public class Player {
     public Player(String name) {
         this.name = name;
         pocket = new ArrayList<Card>();
+        hand = new Hand();
         bank = 100;
         inHand = true;
         handsWon = 0;
@@ -63,8 +66,8 @@ public class Player {
      * 
      * @return the player's best five-card hand
      */
-    public List<Card> getHand() {
-        return hand;
+    public List<Card> getBestHand() {
+        return bestHand;
     }
 
     /**
@@ -73,9 +76,11 @@ public class Player {
      * @param tableCards community cards from the table
      */
     public void evaluateHand(List<Card> tableCards) {
-        Hand sevenCardHand = new Hand(this.getPocket(), tableCards);
-        hand = sevenCardHand.getBestHand();
-        rank = sevenCardHand.getRank();
+        hand.addAllCards(pocket);
+        hand.addAllCards(tableCards);
+        hand.evaluateHand();
+        bestHand = hand.getBestHand();
+        rank = hand.getRank();
     }
 
     /**
@@ -201,10 +206,10 @@ public class Player {
      * Resets the player for a new game.
      */
     public void resetAll() {
-        pocket.clear();
+        pocket = new ArrayList<Card>();
         inHand = true;
-        currentBet = 0;
-        hand = null;
+        hand = new Hand();
+        resetBet();
     }
 
     /**

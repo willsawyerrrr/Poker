@@ -22,15 +22,28 @@ public class Hand {
             (byte) 1000, (byte) 0100, (byte) 0010, (byte) 0001);
 
     /**
-     * Creates a new seven-card hand from a player's pocket and the table.
-     * 
-     * @param pocket pocket cards from a player
-     * @param table  community cards from table
+     * Creates a new empty hand.
      */
-    public Hand(List<Card> pocket, List<Card> table) {
-        hand.addAll(pocket);
-        hand.addAll(table);
-        evaluateHand();
+    public Hand() {
+        hand = new ArrayList<Card>();
+    }
+
+    /**
+     * Adds the given card to the hand.
+     * 
+     * @param card card to add to the hand
+     */
+    public void addCard(Card card) {
+        hand.add(card);
+    }
+
+    /**
+     * Adds the given cards to the hand.
+     * 
+     * @param cards cards to add to the hand
+     */
+    public void addAllCards(List<Card> cards) {
+        hand.addAll(cards);
     }
 
     /**
@@ -54,7 +67,7 @@ public class Hand {
     /**
      * Evalueates the highest five-card hand and its rank.
      */
-    private void evaluateHand() {
+    public void evaluateHand() {
         List<Card> tempHand;
         List<Card> bestHand = new ArrayList<Card>(hand);
         Rank bestRank = Rank.HighCard;

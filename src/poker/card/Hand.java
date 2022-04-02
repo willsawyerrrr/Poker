@@ -27,7 +27,7 @@ public class Hand {
     /**
      * Creates a new seven-card hand for the given player.
      * 
-     * @param player player whose hand to evaluate
+     * @param pocket pocket of the player whose hand to evaluate
      * @param table  table of current game
      */
     public Hand(List<Card> pocket, Table table) {

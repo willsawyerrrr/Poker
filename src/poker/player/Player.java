@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
+/**
+ * Represents a player playing the game of poker.
+ */
 public class Player {
     /** The player's name. */
     private String name;

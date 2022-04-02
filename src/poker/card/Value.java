@@ -1,5 +1,8 @@
 package src.poker.card;
 
+/**
+ * enumerates the possible values of a playing card.
+ */
 public enum Value {
     /** Encoded as 0000000000001. */
     Two,

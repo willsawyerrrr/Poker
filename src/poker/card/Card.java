@@ -1,5 +1,9 @@
 package src.poker.card;
 
+/**
+ * Represents a playing card with a suit (Clubs, Diamonds, Hearts or Spades)
+ * and value (Two, Three, ..., Ten, Jack, Queen, King, Ace).
+ */
 public class Card {
     /** The card's suit. */
     private Suit suit;

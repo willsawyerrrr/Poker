@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
+/**
+ * Represents the table used in a game of Poker with community cards and a pot
+ * of money.
+ */
 public class Table {
     /** The first three community cards. */
     private List<Card> flop;

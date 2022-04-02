@@ -1,5 +1,8 @@
 package src.poker.card;
 
+/**
+ * Enumerates the possible rankings of a five-card poker hand.
+ */
 public enum Rank {
     /** Nothing. */
     HighCard,

@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents a seven-card hand formed out of a player's pocket cards and the
+ * community cards on the table.
+ */
 public class Hand {
     /** The player's pocket cards and the community cards. */
     private List<Card> hand;

@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.StringJoiner;
 
+/**
+ * Represents a game of Texas Hold 'Em Poker. Serves as the entry point into
+ * the game.
+ */
 public class Game {
     /** The players in the current game. */
     private List<Player> players;

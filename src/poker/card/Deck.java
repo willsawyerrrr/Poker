@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.StringJoiner;
 
+/**
+ * Represents a deck of cards used to play a game of poker. This deck does not
+ * necessarily consist of only one standard deck, but it will consist of an
+ * integer number of standard decks.
+ */
 public class Deck {
     /** The deck of cards. */
     private List<Card> deck;

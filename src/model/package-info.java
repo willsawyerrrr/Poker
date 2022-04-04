@@ -1,4 +1,4 @@
 /**
- * Contains the entry point to the Poker game
+ * Contains the underlying data of the Poker game.
  */
 package src.model;

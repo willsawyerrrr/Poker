@@ -23,7 +23,17 @@ public class Hand {
             Value.Ace, Value.King, Value.Queen, Value.Jack, Value.Ten);
     /** Bitwise OR of suit encodings in a Flush. */
     private static final List<Byte> FLUSH_ENCODINGS = List.of(
-            (byte) 1000, (byte) 0100, (byte) 0010, (byte) 0001);
+        // since only 0b0001, 0b0010, 0b0100 and 0b1000 will appear if a flush
+        (byte) 1, (byte) 2, (byte) 4, (byte) 8
+    );
+    /** Bitwise OR of value encodings in a Straight.*/
+    private static final List<Short> STRAIGHT_ENCODINGS = List.of(
+        // since 31 = 0b11111, which will only appear if hand has a straight
+        (short) (31 << 8), (short) (31 << 7), (short) (31 << 6), // A, K, Q high
+        (short) (31 << 5), (short) (31 << 4), (short) (31 << 3), // J, T, 9 high
+        (short) (31 << 2), (short) (31 << 1), (short) (31 << 0), // 8, 7, 6 high
+        (short) (0b10000000001111)                               // A... 5,4,3,2
+    );
 
     /**
      * Creates a new empty hand.
@@ -81,7 +91,7 @@ public class Hand {
                     tempHand = new ArrayList<Card>(hand);
                     tempHand.remove(card1);
                     tempHand.remove(card2);
-                    Rank rank = evaluateHandHelper(tempHand);
+                    Rank rank = evaluateFiveCardHand(tempHand);
                     if (rank.ordinal() > bestRank.ordinal()) {
                         bestRank = rank;
                         bestHand = tempHand;
@@ -99,7 +109,7 @@ public class Hand {
      * 
      * @param hand a five-card hand
      */
-    private Rank evaluateHandHelper(List<Card> hand) {
+    private Rank evaluateFiveCardHand(List<Card> hand) {
         // suits represented by the hand
         List<Suit> suits = new ArrayList<Suit>(5);
         // bitwise OR of the encodings of the suits in the hand
@@ -118,8 +128,9 @@ public class Hand {
             valuesEncoding |= card.getValueEncoding();
         }
 
+        Boolean royal = values.containsAll(ROYAL_FLUSH_VALUES);
         Boolean flush = FLUSH_ENCODINGS.contains(suitsEncoding);
-        Boolean straight = (valuesEncoding % 31) == 0;
+        Boolean straight = STRAIGHT_ENCODINGS.contains(valuesEncoding);
 
         Map<Value, Integer> counter = new HashMap<Value, Integer>();
         for (Value value : values) {
@@ -133,9 +144,9 @@ public class Hand {
         Collection<Integer> counts = counter.values();
         if (counts.contains(5)) {
             return Rank.FiveOfAKind;
-        } else if (flush && values.containsAll(ROYAL_FLUSH_VALUES)) {
+        } else if (royal && flush) {
             return Rank.RoyalFlush;
-        } else if (flush && straight) {
+        } else if (straight && flush) {
             return Rank.StraightFlush;
         } else if (counts.contains(4)) {
             return Rank.FourOfAKind;

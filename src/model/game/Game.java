@@ -187,9 +187,7 @@ public class Game {
         tableCards.add(table.getRiver());
 
         for (Player player : players) {
-            if (player.getInHand()) {
-                player.evaluateHand(tableCards);
-            }
+            player.evaluateHand(tableCards);
         }
     }
 
@@ -335,8 +333,12 @@ public class Game {
                 }
             }
             table.payWinner(winner);
-            System.out.println(String.format("%s wins with a %s!",
-                    winner.getName(), winner.getRank()));
+            if (allFolded) {
+                System.out.println(String.format("%s wins!", winner.getName()));
+            } else {
+                System.out.println(String.format("%s wins with a %s!",
+                        winner.getName(), winner.getRank()));
+            }
 
             System.out.print("Want to play another hand? [Y/N] ");
             newHand = scanner.nextLine();

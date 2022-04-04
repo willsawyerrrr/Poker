@@ -1,4 +1,4 @@
-package src.poker.card;
+package src.model.card;
 
 /**
  * enumerates the possible values of a playing card.

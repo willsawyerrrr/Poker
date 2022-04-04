@@ -1,4 +1,4 @@
-package src.poker.card;
+package src.model.card;
 
 /**
  * Represents a playing card with a suit (Clubs, Diamonds, Hearts or Spades)

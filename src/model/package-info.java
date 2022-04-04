@@ -1,4 +1,4 @@
 /**
  * Contains the entry point to the Poker game
  */
-package src.poker;
+package src.model;

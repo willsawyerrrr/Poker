@@ -1,8 +1,8 @@
-package src.poker.player;
+package src.model.player;
 
-import src.poker.card.Card;
-import src.poker.card.Hand;
-import src.poker.card.Rank;
+import src.model.card.Card;
+import src.model.card.Hand;
+import src.model.card.Rank;
 
 import java.util.ArrayList;
 import java.util.List;

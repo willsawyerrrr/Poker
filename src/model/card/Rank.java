@@ -1,4 +1,4 @@
-package src.poker.card;
+package src.model.card;
 
 /**
  * Enumerates the possible rankings of a five-card poker hand.

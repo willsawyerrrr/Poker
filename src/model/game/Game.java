@@ -2,7 +2,7 @@ package src.model.game;
 
 import src.model.card.Card;
 import src.model.card.Deck;
-import src.model.card.Rank;
+import src.model.card.hand.Rank;
 import src.model.player.Player;
 
 import java.util.ArrayList;

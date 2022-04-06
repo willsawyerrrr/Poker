@@ -4,7 +4,7 @@ package src.model.card;
  * Represents a playing card with a suit (Clubs, Diamonds, Hearts or Spades)
  * and value (Two, Three, ..., Ten, Jack, Queen, King, Ace).
  */
-public class Card {
+public class Card implements Comparable<Card> {
     /** The card's suit. */
     private Suit suit;
     /** Encoding of the card's suit. */
@@ -73,5 +73,9 @@ public class Card {
     @Override
     public String toString() {
         return String.format("%s of %s", value, suit);
+    }
+
+    public int compareTo(Card o) {
+        return value.compareTo(o.getValue());
     }
 }

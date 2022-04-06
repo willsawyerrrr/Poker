@@ -1,8 +1,9 @@
 package src.model.player;
 
 import src.model.card.Card;
-import src.model.card.Hand;
-import src.model.card.Rank;
+import src.model.card.hand.FiveCardHand;
+import src.model.card.hand.Hand;
+import src.model.card.hand.Rank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Player {
     /** The player's seven-card hand. */
     private Hand hand;
     /** The player's best five-card hand. */
-    private List<Card> bestHand;
+    private FiveCardHand bestHand;
     /** The rank of the player's best five-card hand. */
     public Rank rank;
     /** The player's money. */
@@ -69,7 +70,7 @@ public class Player {
      * 
      * @return the player's best five-card hand
      */
-    public List<Card> getBestHand() {
+    public FiveCardHand getBestHand() {
         return bestHand;
     }
 

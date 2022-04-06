@@ -1,7 +1,7 @@
 package src.model.card;
 
 /**
- * enumerates the possible values of a playing card.
+ * Enumerates the possible values of a playing card.
  */
 public enum Value {
     /** Encoded as 0000000000001. */
